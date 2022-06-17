@@ -5,10 +5,14 @@ from matplotlib.pyplot import title
 # Create your models here.
 
 class Profile(models.Model):
+    GENDER_CHOICES = (
+        ('M', 'مرد'),
+        ('F', 'زن'),
+    )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    gender = models.CharField(max_length=1, default='M')
+    gender = models.CharField(max_length=1, default='M', choices=GENDER_CHOICES)
     birthday = models.DateField(blank=True, null=True)
     national_id = models.CharField(max_length=10, unique=True, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
@@ -21,13 +25,24 @@ class Profile(models.Model):
         ordering = ['last_name']
 
 class Department(models.Model):
+    TITLE_CHOICES = (
+        ('معاونت', 'معاونت'),
+        ('مدیریت', 'مدیریت'),
+        ('گروه', 'گروه'),
+        ('اداره', 'اداره'),
+        ('دبیرخانه', 'دبیرخانه'),
+        ('حوزه', 'حوزه'),
+        ('مرکز', 'مرکز'),
+        ('کمیته', 'کمیته'),
+    )
+    dep_title = models.CharField(max_length=255, blank=True, null=True, choices=TITLE_CHOICES)
     dep_name = models.CharField(max_length=255)
     dep_address = models.CharField(max_length=255, blank=True, null=True)
     level = models.IntegerField(default=0)
     super_dep = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, verbose_name="the related dep")
 
     def __str__(self):
-        return f"{self.dep_name}"
+        return f"{self.dep_title} {self.dep_name}"
 
     class Meta:
         ordering = ['dep_name']
@@ -62,7 +77,7 @@ class Position(models.Model):
     dep = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name="the related dep")
 
     def __str__(self):
-        return f"{self.position_type}"
+        return f"{self.position_type} {self.dep.dep_name} - {self.owner}"
 
     class Meta:
         ordering = ['position_type']
