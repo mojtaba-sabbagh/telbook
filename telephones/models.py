@@ -19,7 +19,7 @@ class Profile(models.Model):
     mobile = models.CharField(max_length=11, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.last_name} {self.first_name}"
 
     class Meta:
         ordering = ['last_name']
@@ -75,6 +75,7 @@ class Position(models.Model):
     position_type =  models.ForeignKey(PositionType, on_delete=models.CASCADE, verbose_name="the related position type")
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name="the related profile")
     dep = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name="the related dep")
+    duties = models.CharField(max_length=255, blank=True, null=True, default='')
 
     def __str__(self):
         return f"{self.position_type} {self.dep.dep_name} - {self.owner}"

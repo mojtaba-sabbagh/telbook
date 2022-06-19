@@ -25,14 +25,14 @@ SECRET_KEY = 'django-insecure-jea9()g^6(9l5*22*4&4ym0%6nyn!(i(upk*c6p4xe#n^hsh44
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.192.202',]
+ALLOWED_HOSTS = ['192.168.192.202', '127.0.0.1']
 
 LANGUAGE_CODE = 'fa-ir'
 
 # Application definition
 
 INSTALLED_APPS = [
-    #'apps.SuitConfig',
+    #'suit.apps.DjangoSuitConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
