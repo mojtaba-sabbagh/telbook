@@ -85,9 +85,8 @@ class Position(models.Model):
 
 class Assign(models.Model):
     date = models.DateField(blank=True, null=True)
-    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name="the related profile")
-    dep = models.ForeignKey(Position, on_delete=models.CASCADE, verbose_name="the related pos")
-    tel = models.ForeignKey(Telephone, on_delete=models.CASCADE, verbose_name="the related tel")
+    position = models.ForeignKey(Position, related_name='positions', on_delete=models.CASCADE, verbose_name="the related pos")
+    tel = models.ForeignKey(Telephone, related_name='tels', on_delete=models.CASCADE, verbose_name="the related tel")
 
 
     def __str__(self):
