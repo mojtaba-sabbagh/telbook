@@ -72,9 +72,9 @@ class PositionType(models.Model):
 
 
 class Position(models.Model):
-    position_type =  models.ForeignKey(PositionType, on_delete=models.CASCADE, verbose_name="the related position type")
-    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name="the related profile")
-    dep = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name="the related dep")
+    position_type =  models.ForeignKey(PositionType, related_name='position_types', on_delete=models.CASCADE, verbose_name="the related position type")
+    owner = models.ForeignKey(Profile, related_name='owners', on_delete=models.CASCADE, verbose_name="the related profile")
+    dep = models.ForeignKey(Department, related_name='deps', on_delete=models.CASCADE, verbose_name="the related dep")
     duties = models.CharField(max_length=255, blank=True, null=True, default='')
 
     def __str__(self):
@@ -90,7 +90,7 @@ class Assign(models.Model):
 
 
     def __str__(self):
-        return f"{self.tel} - {self.owner}"
+        return f"{self.tel} - {self.position}"
 
     class Meta:
         ordering = ['tel']
