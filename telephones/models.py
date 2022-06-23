@@ -34,6 +34,7 @@ class Department(models.Model):
         ('حوزه', 'حوزه'),
         ('مرکز', 'مرکز'),
         ('کمیته', 'کمیته'),
+        ('شورا', 'شورا'),
     )
     dep_title = models.CharField(max_length=255, blank=True, null=True, choices=TITLE_CHOICES)
     dep_name = models.CharField(max_length=255)
@@ -45,7 +46,7 @@ class Department(models.Model):
         return f"{self.dep_title} {self.dep_name}"
 
     class Meta:
-        ordering = ['dep_name']
+        ordering = ['dep_title', 'dep_name']
 
 class Telephone(models.Model):
     extension = models.CharField(max_length=255)

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from sympy import re
-from .models import Profile, Position, Assign
+from .models import Department, Profile, Position, Assign
 from django.db.models import Q
 from .serializers import AssignNameSerializer
 from django.http import JsonResponse
@@ -20,12 +20,20 @@ def name_search(request):
 
     qname = request.GET.get('q', '')
     dep = request.GET.get('dep', '')
-    #qset = Assign.objects.select_related('position__owner').\
-    #       filter(Q(position__owner__first_name__contains=qname) | Q(position__owner__last_name__contains=qname))
-
-    qset = Assign.objects.select_related('position').filter(position__dep=dep).\
-           select_related('position__owner').\
-           filter(Q(position__owner__first_name__contains=qname) | Q(position__owner__last_name__contains=qname))    
+    deps = []
+    if dep != '':
+        main_deps = Department.objects.select_related('super_dep').filter(super_dep=dep)
+        sub_deps = [ Department.objects.select_related('super_dep').filter(super_dep=sub_dep) 
+                     for sub_dep in main_deps]
+        union_sub_deps = sub_deps[-1]
+        for sub_dep in sub_deps[:-1]: union_sub_deps = union_sub_deps | sub_dep
+        deps = main_deps | union_sub_deps | Department.objects.filter(id=dep)
+        qset = Assign.objects.select_related('position').filter(position__dep__in=deps).\
+            select_related('position__owner').\
+            filter(Q(position__owner__first_name__contains=qname) | Q(position__owner__last_name__contains=qname))    
+    else:
+        qset = Assign.objects.select_related('position__owner').\
+            filter(Q(position__owner__first_name__contains=qname) | Q(position__owner__last_name__contains=qname))
     serial_qset = AssignNameSerializer(qset, many=True)
     # return a Json response
     return JsonResponse(serial_qset.data, safe=False)
