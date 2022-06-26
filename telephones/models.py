@@ -49,7 +49,7 @@ class Department(models.Model):
         ordering = ['dep_title', 'dep_name']
 
 class Telephone(models.Model):
-    extension = models.CharField(max_length=255)
+    extension = models.CharField(max_length=255, unique=True)
     complete_number = models.CharField(max_length=255, blank=True, null=True)
     tel_address = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
