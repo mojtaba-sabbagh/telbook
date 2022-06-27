@@ -82,7 +82,7 @@ class Position(models.Model):
         return f"{self.position_type} {self.dep.dep_name} - {self.owner}"
 
     class Meta:
-        ordering = ['position_type']
+        ordering = ['position_type', 'owner']
 
 class Assign(models.Model):
     date = models.DateField(blank=True, null=True)

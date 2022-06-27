@@ -37,6 +37,7 @@ class PositionAdmin(admin.ModelAdmin):
     css = {
              'all': ('templates/css/admin-extra.css ',)
         }
+    list_filter = ('dep',)
 
 @admin.register(Assign)
 class AssignAdmin(admin.ModelAdmin):
