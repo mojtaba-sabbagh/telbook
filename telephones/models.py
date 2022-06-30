@@ -28,6 +28,7 @@ class Department(models.Model):
     TITLE_CHOICES = (
         ('معاونت', 'معاونت'),
         ('مدیریت', 'مدیریت'),
+        ('دانشکده', 'دانشکده'),
         ('گروه', 'گروه'),
         ('اداره', 'اداره'),
         ('دبیرخانه', 'دبیرخانه'),
@@ -35,6 +36,8 @@ class Department(models.Model):
         ('مرکز', 'مرکز'),
         ('کمیته', 'کمیته'),
         ('شورا', 'شورا'),
+        ('سرای', 'سرای دانشجوی'),
+        ('گیت', 'گیت'),
     )
     dep_title = models.CharField(max_length=255, blank=True, null=True, choices=TITLE_CHOICES)
     dep_name = models.CharField(max_length=255)
@@ -82,7 +85,7 @@ class Position(models.Model):
         return f"{self.position_type} {self.dep.dep_name} - {self.owner}"
 
     class Meta:
-        ordering = ['position_type', 'owner']
+        ordering = ['dep', 'position_type', 'owner']
 
 class Assign(models.Model):
     date = models.DateField(blank=True, null=True)
