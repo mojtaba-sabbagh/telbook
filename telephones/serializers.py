@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Assign
+from .models import Assign, Department
 
 class FullnameField(serializers.RelatedField):
     def to_representation(self, value):
@@ -54,3 +54,17 @@ class AssignNameSerializer(serializers.ModelSerializer):
             'extension',
             'complete_number',
             'description')
+
+class DepNameSerializer(serializers.ModelSerializer):
+    # PrimaryKeyRelatedField
+    ID = serializers.IntegerField(read_only=True, source="id")
+    text = serializers.SerializerMethodField()
+    def get_text(self, obj):
+        return f'{obj.dep_title} {obj.dep_name}'
+
+    class Meta:
+        model = Department
+        fields = (
+            'ID',
+            'text',
+        )
