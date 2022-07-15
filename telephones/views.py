@@ -10,19 +10,21 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.parsers import JSONParser
+from rest_framework.pagination import PageNumberPagination
 
 # Create your views here.
 @csrf_exempt
 @api_view(['GET'])
 @permission_classes([AllowAny])
 @parser_classes([JSONParser])
-def name_search(request):
+def name_search(request, dep, qname):
     """ search for name in specified area """
 
-    qname = request.GET.get('q', '')
-    dep = request.GET.get('dep', '')
+    #qname = request.GET.get('q', '')
+    #dep = request.GET.get('dep', '')
+    qname = '' if qname == '0' else qname
     deps = []
-    if dep != '':
+    if dep != '0':
         main_deps = Department.objects.select_related('super_dep').filter(super_dep=dep)
         sub_deps = [ Department.objects.select_related('super_dep').filter(super_dep=sub_dep) 
                      for sub_dep in main_deps]
@@ -40,9 +42,13 @@ def name_search(request):
         qset = Assign.objects.select_related('position__owner').\
             filter(Q(position__owner__first_name__contains=qname) | 
                 Q(position__owner__last_name__contains=qname)).order_by('position__dep__dep_name', 'position__position_type', 'position__owner__last_name')
-    serial_qset = AssignNameSerializer(qset, many=True)
+    paginator = PageNumberPagination()
+    context = paginator.paginate_queryset(queryset=qset, request=request)
+    serial_qset = AssignNameSerializer(context, many=True)
+    #serial_qset = AssignNameSerializer(qset, many=True)
     # return a Json response
-    return JsonResponse(serial_qset.data, safe=False)
+    #return JsonResponse(serial_qset.data, safe=False)
+    return paginator.get_paginated_response(serial_qset.data)
 
 @csrf_exempt
 @api_view(['GET'])

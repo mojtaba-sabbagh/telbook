@@ -77,6 +77,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'telbook.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50    # the size of one page
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
