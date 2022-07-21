@@ -1,5 +1,6 @@
-pip install openpyxl
-pip install path
-pip install djangorestframework
-pip install django-cors-headers
+Django>=3.0,<4.0
+Openpyxl
+Path
+Djangorestframework
+Django-cors-headers
 
