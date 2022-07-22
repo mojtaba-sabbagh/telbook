@@ -92,16 +92,23 @@ def dep_positions(request):
 @parser_classes([JSONParser])
 def post_search(request, dep, qpost):
     """ search for post in specified area """
-    qpost = '' if qpost == '0' else qpost
     deps = []
     if dep != '0':
         deps = departments(dep)
-        qset = Assign.objects.select_related('position').filter(position__dep__in=deps).\
-            select_related('position__position_type').\
-            filter(position__position_type=qpost).order_by('position__dep__dep_name', 'position__position_type', 'position__owner__last_name')
+        if qpost != '0':
+            qset = Assign.objects.select_related('position').filter(position__dep__in=deps).\
+                select_related('position__position_type').\
+                filter(position__position_type=qpost).order_by('position__dep__dep_name', 'position__position_type', 'position__owner__last_name')
+        else:
+            qset = Assign.objects.select_related('position').filter(position__dep__in=deps).\
+                select_related('position__position_type').order_by('position__dep__dep_name', 'position__position_type', 'position__owner__last_name')
     else:
-        qset = Assign.objects.select_related('position').\
-            filter(position__position_type=qpost).order_by('position__dep__dep_name', 'position__position_type', 'position__owner__last_name')
+        if qpost != '0':
+            qset = Assign.objects.select_related('position').\
+                filter(position__position_type=qpost).order_by('position__dep__dep_name', 'position__position_type', 'position__owner__last_name')
+        else:
+            qset = Assign.objects.select_related('position').order_by('position__dep__dep_name', 'position__position_type', 'position__owner__last_name')
+
     paginator = PageNumberPagination()
     context = paginator.paginate_queryset(queryset=qset, request=request)
     serial_qset = AssignNameSerializer(context, many=True)
