@@ -42,11 +42,11 @@ def name_search(request, dep, qname):
         qset = Assign.objects.select_related('position').filter(position__dep__in=deps).\
             select_related('position__owner').\
             filter(Q(position__owner__first_name__contains=qname) | 
-                Q(position__owner__last_name__contains=qname)).order_by('position__dep__dep_name', 'position__position_type__level', 'position__position_type', 'position__owner__last_name')
+                Q(position__owner__last_name__contains=qname)).order_by('position__dep__level', 'position__dep__dep_name', 'position__position_type__level', 'position__position_type', 'position__owner__last_name')
     else:
         qset = Assign.objects.select_related('position__owner').\
             filter(Q(position__owner__first_name__contains=qname) | 
-                Q(position__owner__last_name__contains=qname)).order_by('position__dep__dep_name', 'position__position_type__level', 'position__position_type', 'position__owner__last_name')
+                Q(position__owner__last_name__contains=qname)).order_by('position__dep__level', 'position__dep__dep_name', 'position__position_type__level', 'position__position_type', 'position__owner__last_name')
     paginator = PageNumberPagination()
     context = paginator.paginate_queryset(queryset=qset, request=request)
     serial_qset = AssignNameSerializer(context, many=True)
