@@ -35,7 +35,7 @@ def name_search(request, dep, qname):
 
     #qname = request.GET.get('q', '')
     #dep = request.GET.get('dep', '')
-    qname = '' if qname == '0' else qname
+    qname = '' if qname == '0' else qname.strip()
     deps = []
     if dep != '0':
         deps = departments(dep)
