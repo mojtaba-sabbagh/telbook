@@ -9,6 +9,7 @@ class ProfileAdmin(admin.ModelAdmin):
     css = {
              'all': ('templates/css/admin-extra.css ',)
         }
+    search_fields = ['last_name', 'first_name']
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
@@ -16,6 +17,7 @@ class DepartmentAdmin(admin.ModelAdmin):
     css = {
              'all': ('templates/css/admin-extra.css ',)
         }
+    search_fields = ['dep_name']
 
 @admin.register(Telephone)
 class TelephoneAdmin(admin.ModelAdmin):
@@ -23,6 +25,7 @@ class TelephoneAdmin(admin.ModelAdmin):
     css = {
              'all': ('templates/css/admin-extra.css ',)
         }
+    search_fields = ['extension']
 
 @admin.register(PositionType)
 class PositionTypeAdmin(admin.ModelAdmin):
@@ -30,6 +33,7 @@ class PositionTypeAdmin(admin.ModelAdmin):
     css = {
              'all': ('templates/css/admin-extra.css ',)
         }
+    search_fields = ['title']
 
 @admin.register(Position)
 class PositionAdmin(admin.ModelAdmin):
@@ -38,6 +42,7 @@ class PositionAdmin(admin.ModelAdmin):
              'all': ('templates/css/admin-extra.css ',)
         }
     list_filter = ('dep',)
+    search_fields = ['dep__dep_name', 'owner__last_name', 'owner__first_name']
 
 @admin.register(Assign)
 class AssignAdmin(admin.ModelAdmin):
@@ -45,3 +50,4 @@ class AssignAdmin(admin.ModelAdmin):
     css = {
              'all': ('templates/css/admin-extra.css ',)
         }
+    search_fields = ['tel__extension', 'position__owner__last_name', 'position__dep__dep_name', 'position__owner__first_name']

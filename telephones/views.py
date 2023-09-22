@@ -33,8 +33,6 @@ def departments(dep):
 def name_search(request, dep, qname):
     """ search for name in specified area """
 
-    #qname = request.GET.get('q', '')
-    #dep = request.GET.get('dep', '')
     qname = '' if qname == '0' else qname.strip()
     deps = []
     if dep != '0':
@@ -50,9 +48,6 @@ def name_search(request, dep, qname):
     paginator = PageNumberPagination()
     context = paginator.paginate_queryset(queryset=qset, request=request)
     serial_qset = AssignNameSerializer(context, many=True)
-    #serial_qset = AssignNameSerializer(qset, many=True)
-    # return a Json response
-    #return JsonResponse(serial_qset.data, safe=False)
     return paginator.get_paginated_response(serial_qset.data)
 
 @csrf_exempt

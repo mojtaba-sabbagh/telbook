@@ -27,10 +27,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'django-insecure-jea9()g^6(9l5*22*4&4ym0%6nyn!(i(upk*c6p4xe#n^hsh44'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://tel.vru.ac.ir']
+CSRF_TRUSTED_ORIGINS = ['https://tel.vru.ac.ir', 'https://localhost']
 
 LANGUAGE_CODE = 'fa-ir'
 
