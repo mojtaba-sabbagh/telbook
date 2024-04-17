@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  telbook_api:
+    image: 'golbazkhan/telbook_api:1'
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - telbook_api_static:/app/static
+      - telbook_api_databse:/app/database
+    networks:
+      - my_network
+networks:
+  my_network:
+    driver: bridge
+volumes:
+  - telbook_api_static:
+  - telbook_api_databse:

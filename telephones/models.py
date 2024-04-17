@@ -22,6 +22,8 @@ class Profile(models.Model):
 
     class Meta:
         ordering = ['last_name']
+        verbose_name = "مشخصات کاربر"
+        verbose_name_plural = "مشخصات کاربران"
 
 class Department(models.Model):
     TITLE_CHOICES = (
@@ -49,6 +51,8 @@ class Department(models.Model):
 
     class Meta:
         ordering = ['dep_title', 'dep_name']
+        verbose_name = "واحد سازمانی"
+        verbose_name_plural = "واحدهای سازمانی"
 
 class Telephone(models.Model):
     extension = models.CharField(max_length=255, unique=True)
@@ -61,6 +65,8 @@ class Telephone(models.Model):
 
     class Meta:
         ordering = ['extension']
+        verbose_name = "تلفن داخلی"
+        verbose_name_plural = "تلفن‌های داخلی"
 
 class PositionType(models.Model):
     title = models.CharField(max_length=255)
@@ -72,7 +78,8 @@ class PositionType(models.Model):
 
     class Meta:
         ordering = ['title']
-
+        verbose_name = "نوع پست سازمانی"
+        verbose_name_plural = "انواع پست های سازمانی"
 
 class Position(models.Model):
     position_type =  models.ForeignKey(PositionType, related_name='position_types', on_delete=models.CASCADE, verbose_name="the related position type")
@@ -85,6 +92,8 @@ class Position(models.Model):
 
     class Meta:
         ordering = ['dep', 'position_type', 'owner']
+        verbose_name = "پست سازمانی"
+        verbose_name_plural = "پست‌های سازمانی"
 
 class Assign(models.Model):
     date = models.DateField(blank=True, null=True)
@@ -97,4 +106,6 @@ class Assign(models.Model):
 
     class Meta:
         ordering = ['tel']
+        verbose_name = "تخصیص تلفن"
+        verbose_name_plural = "تخصیص تلفن‌ها"
 
